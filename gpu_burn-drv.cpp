@@ -442,8 +442,13 @@ void listenClients(std::vector<int> clientFd, std::vector<pid_t> clientPid, int 
 			FD_SET(clientFd.at(i), &waitHandles);
 
 		// Printing progress (if a child has initted already)
-		if (childReport) {
-			float elapsed = fminf((float)(thisTime-startTime)/(float)runTime*100.0f, 100.0f);
+		static int pct = 0;
+		float elapsed = fminf((float)(thisTime-startTime)/(float)runTime*100.0f, 100.0f);
+		int elapsed_int = (int) elapsed;
+		
+		if (childReport && elapsed_int > pct) {
+			pct = elapsed_int;
+			
 			printf("\r%.1f%%  ", elapsed);
 			printf("proc'd: ");
 			for (size_t i = 0; i < clientCalcs.size(); ++i) {
