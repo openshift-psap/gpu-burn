@@ -1,0 +1,5 @@
+FROM nvcr.io/nvidia/cuda:11.2.2-devel-ubi8
+
+COPY . /app
+RUN cd /app \
+ && make
